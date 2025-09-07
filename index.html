@@ -17,6 +17,12 @@
       padding: 40px 20px;
     }
 
+    img {
+      max-width: 300px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+    }
+
     /* Roblox-blue button */
     .roblox-btn {
       background: #1446FF;
@@ -28,10 +34,18 @@
       cursor: pointer;
       border: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-bottom: 15px;
     }
     .roblox-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+
+    .places {
+      font-size: 18px;
+      color: #d00;
+      margin: 15px 0 30px;
+      font-weight: bold;
     }
 
     /* Overlay + Popup */
@@ -66,7 +80,7 @@
 
     /* Offerwall */
     #offerwall {
-      margin-top: 40px;
+      margin-top: 20px;
       background: white;
       border-radius: 12px;
       padding: 20px;
@@ -101,8 +115,14 @@
 </head>
 <body>
 
-  <!-- Button -->
+  <!-- Image -->
+  <img src="iphone.jpg" alt="iPhone Giveaway">
+
+  <!-- Button (existing one, unchanged) -->
   <button class="roblox-btn" onclick="showPopup()">Join Giveaway</button>
+
+  <!-- Places left -->
+  <div class="places" id="places"></div>
 
   <!-- Offers -->
   <section id="offerwall">
@@ -119,6 +139,7 @@
   </div>
 
   <script>
+    // Popup
     function showPopup() {
       document.getElementById("overlay").classList.add("active");
       document.getElementById("popup").style.display = "block";
@@ -127,6 +148,37 @@
       document.getElementById("overlay").classList.remove("active");
       document.getElementById("popup").style.display = "none";
     }
+
+    // =====================
+    // Prevent Inspect / Translation
+    // =====================
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.onkeydown = function(e) {
+      if (e.keyCode === 123 || // F12
+          (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+          (e.ctrlKey && e.keyCode === 85)) {
+        return false;
+      }
+    };
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('*').forEach(el => {
+        el.setAttribute("translate", "no");
+      });
+    });
+
+    // =====================
+    // Places Left (20–40, persistent via localStorage)
+    // =====================
+    function getPlacesLeft() {
+      let stored = localStorage.getItem("placesLeft2");
+      if (!stored) {
+        const random = Math.floor(Math.random() * (40 - 20 + 1)) + 20;
+        localStorage.setItem("placesLeft2", random);
+        stored = random;
+      }
+      return stored;
+    }
+    document.getElementById("places").innerText = getPlacesLeft() + " places left";
 
     // =====================
     // Offer Normalization
