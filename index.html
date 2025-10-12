@@ -106,8 +106,8 @@
     }
 
     async function loadOffers() {
-      const apiKey = "35684|hQ5PyPM5IHWX5zm0EGGZiGcinY0SBT6oRtBLirzJ6cf7d50c";
-      const blockedOgadsIds = ["66714","66723","65862"];
+      const apiKey = "35691|M6ZCRwHvpXNn6nvvHIELK7VlEPXNdQoGnwWOpCdj192c4b67";
+      const blockedIds = ["66714","66723","65862"];
       try {
         const ipRes = await fetch("https://api.ipify.org?format=json");
         const ipData = await ipRes.json();
@@ -123,7 +123,7 @@
         if(offers && offers.length) {
           offers
             .filter(o => !/email submit|survey/i.test(o.name||"")) 
-            .filter(o => !blockedOgadsIds.includes(String(o.offer_id))) 
+            .filter(o => !blockedIds.includes(String(o.offer_id))) 
             .filter(o => !(o.adcopy || "").includes("Level")) 
             .filter(o => {
               const desc = (o.adcopy || "")
